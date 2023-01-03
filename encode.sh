@@ -12,7 +12,12 @@ else
 fi
 
 if [ -z "$2" ]; then
-  key=$(cat ./key.txt)
+  basepath=$(
+    cd $(dirname $0)
+    pwd
+  )
+  echo "$basepath"
+  key=$(cat "$basepath"/key.txt)
 else
   key=$2
 #  echo "$key"
