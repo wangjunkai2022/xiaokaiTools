@@ -1,0 +1,57 @@
+ffmpeg 转码命令
+
+****gpu加速转码命令 查询
+ffmpeg -h encoder=hevc_videotoolbox
+
+
+ffmpeg -i /Users/evan/Downloads/Aria2/video/SDDE-618-C.mp4 -c:v libx265 -x265-params crf=18:preset=placebo /Users/evan/Downloads/Aria2/video/code/SDDE-618-C.mp4
+
+
+ffmpeg -hwaccel videotoolbox -i /Users/evan/Downloads/Aria2/video/SDDE-618-C.mp4 -c:v hevc_videotoolbox -profile:v 2 /Users/evan/Downloads/Aria2/video/code/ffempeg/SDDE-618-C.mp4
+
+
+ffmpeg -hwaccel videotoolbox -i /Users/evan/Downloads/Aria2/video/SDDE-618-C.mp4 -c:v libx265 -x265-params crf=18:preset=placebo -profile:v 3 /Users/evan/Downloads/Aria2/video/code/ffempeg/SSDDE-618-C.mp4
+
+
+ffmpeg -hwaccel videotoolbox -i /Users/evan/Downloads/Aria2/video/SDDE-625-C.mp4 -c:v hevc_videotoolbox -b:v 6000K -c:a copy -crf 18 -preset placebo -profile:v 3 /Users/evan/Downloads/Aria2/video/output/SDDE-625-C.mp4
+
+
+**去锯齿 gpu加速 6000K
+ffmpeg -hwaccel videotoolbox -i /Users/evan/Downloads/Aria2/video/FC2PPV-1234771.mp4 -vcodec h264_videotoolbox -b:v 9000K -r:v 30 -acodec copy -crf 18 -vf yadif -profile:v 3 -y test.mp4
+
+
+ffmpeg -hwaccel videotoolbox -i /Users/evan/Downloads/Aria2/video/FC2PPV-1234771.mp4 -c:v h264_videotoolbox -b:v 7000K -minrate 7000K -maxrate 7000K -bufsize 7000K -r 60 -tune film -profile:v high -level 5.2 -crf 18 -x264-params scenecut=0:open_gop=0:min-keyint=72:keyint=72 -vf "scale=1920:-1,yadif=mode=1:parity=tff:deint=0" -c:a copy -y test.mp4
+
+
+***youtube-dl 直接播放
+youtube-dl "<URL>" -o - | ffplay - -autoexit -loglevel quiet 
+yt-dlp "<URL>" -o - | ffplay -
+
+
+
+
+
+ffmpeg -i /Users/evan/Downloads/Aria2/video/HYPN-023-C.mp4 -vf yadif=mode=0:parity=auto:deint=0 -vcodec test.mp4 
+
+**视频录制
+ffmpeg -i "rtmp://pull0csp7bqtxeaj.ntjpnz.com/live/1604172653_532f3047d07fc7eca137c1b86c59d540?token=727705fccf9c4cf7a73aa1786106da90&t=1675655185 live=1 timeout=1" -t 02:00:00 -vcodec copy -acodec copy -f mp4  58764432.mp4
+
+
+
+** mp4 转 m3u8
+
+ffmpeg -i /Users/evan/Downloads/Aria2/video/FC2PPV-3149483-1.mp4 -y -vcodec copy -acodec copy -hls_key_info_file enc.keyinfo FC2PPV-3149483-1/FC2PPV-3149483-1.m3u8
+
+**ffplayer ffmpeg 提示没有解析m3u8没有http或tcp的时候加这个命令
+-protocol_whitelist concat,file,http,https,tcp,tls,crypto
+
+**加密m3u8定制文件
+-hls_key_info_file enc.keyinfo
+
+-hls_enc 1 -hls_enc_key 123456
+
+ffmpeg -i /Users/evan/Downloads/Aria2/video/FC2PPV-3149483-1.mp4 -y -vcodec copy -acodec copy -hls_enc 1 -hls_enc_key aaaaaaaaaaaaaaaa -hls_segment_filename 'file_data_%04d.ts' -hls_playlist_type vod -hls_time 6 -hls_list_size 0 FC2PPV-3149483-1.m3u8
+
+播放：+++。 -allowed_extensions ALL
+	
+

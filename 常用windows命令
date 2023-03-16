@@ -1,0 +1,12 @@
+转发端口
+开启了nox模拟器
+netsh interface portproxy add v4tov4 listenport=62001 listenaddress=0.0.0.0 connectport=62001 connectaddress=127.0.0.1
+列子：adb connect ip:5555
+
+
+netsh interface portproxy delete v4tov4 listenaddress=0.0.0.0 listenport=62001
+
+
+
+adb IAD debug 端口
+adb forward tcp:23946 tcp:23946
