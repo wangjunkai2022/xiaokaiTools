@@ -2,16 +2,19 @@
 #RUN export TDL_NS=xioakai
 #ENTRYPOINT ["tdl" , "dl" , "-n" , "xiaokai" , "-t" , "8" , "-l" , "4" , "-u"]
 
-FROM ubuntu
-#FROM nvidia/cuda:12.0.0-runtime-ubuntu22.04
+#FROM ubuntu
+#拥有英伟达GPU加速的ubuntu镜像
+FROM nvidia/cuda:12.1.0-runtime-ubuntu22.04
 
 WORKDIR /codeformer
 
 RUN apt-get update \
-    && apt-get install --no-install-recommends -y  \
+    && apt-get install --no-install-recommends -y \
         libgl1-mesa-glx libglib2.0-0 python3 python3-pip git ffmpeg\
     && git clone https://github.com/sczhou/CodeFormer.git /codeformer \
     && pip3 install -r requirements.txt \
+#这里安装ffmpeg-python这样可以解析视频(在docker运行中pip安装时会报root错误 所有这里下载)
+	&& pip3 install ffmpeg-python \
     && python3 basicsr/setup.py develop \
     && python3 scripts/download_pretrained_models.py facelib \
     && python3 scripts/download_pretrained_models.py CodeFormer \
