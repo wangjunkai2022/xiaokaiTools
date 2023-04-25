@@ -1,3 +1,13 @@
 macOS
 opencore configurator
 github OpenCore-Legacy-Patcher
+
+
+
+按照 SOURCE.md 中的说明构建 OpenCore Legacy Patcher。
+
+在您的 OpenCore 配置中；确保将csr-active-config的值更改为值 030A0000。（这是 OpenCore Legacy Patcher 将根补丁安装到您的系统所必需的）
+
+将这些标志添加到NVRAM 部分的引导参数中：~~~text amfi_get_out_of_my_way=0x1 ngfxcompat=1 ngfxgl=1 nvda_drv_vrl=1 ~~~
+
+现在重新启动您的 PC 并打开 OpenCore-Patcher-GUI.command。按Post Install Root Patch并开始根修补。
