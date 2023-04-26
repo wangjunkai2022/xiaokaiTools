@@ -10,4 +10,10 @@ github OpenCore-Legacy-Patcher
 
 将这些标志添加到NVRAM 部分的引导参数中：~~~text amfi_get_out_of_my_way=0x1 ngfxcompat=1 ngfxgl=1 nvda_drv_vrl=1 ~~~
 
+nv_disable=1
+
 现在重新启动您的 PC 并打开 OpenCore-Patcher-GUI.command。按Post Install Root Patch并开始根修补。
+
+
+
+https://www.bilibili.com/read/cv20549245/  关于我的黑苹果如何如何驱动GTX1060独显(MacOS Big Sur) 这里有显示如何切换显示独显和集显
