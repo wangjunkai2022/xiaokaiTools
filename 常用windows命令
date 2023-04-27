@@ -10,3 +10,10 @@ netsh interface portproxy delete v4tov4 listenaddress=0.0.0.0 listenport=62001
 
 adb IAD debug 端口
 adb forward tcp:23946 tcp:23946
+
+
+jvplayer
+链接：https://pan.baidu.com/s/11V5KUuoVV1Z0Q6ErBazZ9w?pwd=l3lt 
+提取码：l3lt 
+
+JVP_TG-PLUS   github中开源

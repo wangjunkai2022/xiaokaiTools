@@ -22,3 +22,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 ENTRYPOINT ["python3", "inference_codeformer.py"]
+
+
+#转换视频
+#docker run -i --rm -v /Users/evan/Pictures/input:/codeformer/inputs -v /Users/evan/Pictures/results:/codeformer/results codeformer --bg_upsampler realesrgan --face_upsample -w 1.0 --input_path inputs/tobs
