@@ -6,7 +6,7 @@ github OpenCore-Legacy-Patcher
 
 按照 SOURCE.md 中的说明构建 OpenCore Legacy Patcher。
 
-在您的 OpenCore 配置中；确保将csr-active-config的值更改为值 030A0000。（这是 OpenCore Legacy Patcher 将根补丁安装到您的系统所必需的）
+在您的 OpenCore 配置中；确保将csr-active-config的值更改为值 03080000  FF0F0000 （完全关闭）。（这是 OpenCore Legacy Patcher 将根补丁安装到您的系统所必需的）
 
 将这些标志添加到NVRAM 部分的引导参数中：~~~text amfi_get_out_of_my_way=0x1 ngfxcompat=1 ngfxgl=1 nvda_drv_vrl=1 ~~~
 
@@ -17,3 +17,6 @@ nv_disable=1
 
 
 https://www.bilibili.com/read/cv20549245/  关于我的黑苹果如何如何驱动GTX1060独显(MacOS Big Sur) 这里有显示如何切换显示独显和集显
+
+
+https://heipg.cn/tutorial/drive-nvidia-graphicscard-above-mojave.html 看看这个 加入显卡教程
