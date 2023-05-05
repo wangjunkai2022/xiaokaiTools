@@ -29,6 +29,5 @@ if [ ! -d "$outFile" ]; then
 fi
 
 #工作路径切换到需要存的视频路径下
-cd $outFile
-ffmpeg -i $input -y -vcodec copy -acodec copy -hls_enc 1 -hls_enc_key aaaaaaaaaaaaaaaa -hls_segment_filename 'file_data_%04d.ts' -hls_playlist_type vod -hls_time 6 -hls_list_size 0 $fileName.m3u8
-
+cd "$outFile"
+ffmpeg -i "$input" -y -vcodec copy -acodec copy -hls_enc 1 -hls_enc_key aaaaaaaaaaaaaaaa -hls_segment_filename 'file_data_%04d.ts' -hls_playlist_type vod -hls_time 6 -hls_list_size 0 "$fileName".m3u8
