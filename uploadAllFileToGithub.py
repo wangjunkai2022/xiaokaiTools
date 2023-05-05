@@ -19,8 +19,18 @@ print("当前工作路径是：：" + os.getcwd())
 try:
     print(sh.git("reset", "--mixed", "HEAD^"))  # 取消git comment 和取消add（暂存）
 except Exception as ex:
+    print(ex)
     print("没有文件需要重置提交")
-print(sh.git("pull", "origin", "main"))
+try:
+    print(sh.git("pull", "origin", "main"))
+except Exception as ex:
+    print(ex)
+    err = ex.stderr.decode("utf-8")
+    if err and "Please move or remove them before you merge." in err:
+        all = re.findall(r"\t(.+?)\n", err)  # 获得所有改动的文件
+        for file in all:
+            print("正在删除文件:" + file)
+            os.remove(file)
 rules = sh.git("status")  # 获取改动
 all = re.findall(r"\t(.+?)\n", rules)  # 获得所有改动的文件
 for file in all:
