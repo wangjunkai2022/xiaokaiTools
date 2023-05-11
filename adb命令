@@ -1,0 +1,4 @@
+adb命令
+启动调试
+
+adb shell am set-debug-app -w kimi.wuhends.ebooks
