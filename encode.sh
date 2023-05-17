@@ -1,5 +1,5 @@
 #!/bin/sh
-echo "加密视频文件"
+echo "加密mp4视频文件"
 
 if [ -z "$1" ]; then
   # shellcheck disable=SC2028

@@ -11,6 +11,9 @@ from PyQt6.QtWidgets import (QWidget, QPushButton, QLineEdit,
 import sys
 
 import uploadAllFileToGithub
+from PyQt6AndroidTool import ApkTool, JadxTool, AndroidComToSmaliAs
+
+from PyQt6RunShell import DownloadWidget, ZipWidget, ShellWidget
 
 
 class MainWindow(QMainWindow):
@@ -42,6 +45,7 @@ class MainWindow(QMainWindow):
         self._mainQVLayout.addWidget(DecodeMp4Video())
         self._mainQVLayout.addWidget(PlayMp4Video())
         self._mainQVLayout.addWidget(MacLnAndroid())
+        self._mainQVLayout.addWidget(ApkDecompilation())
 
         self.process = QTextEdit(self, readOnly=True)
         self.process.ensureCursorVisible()
@@ -63,6 +67,8 @@ class SelectFileType(Enum):
     Dir = 2
     # 视频文件
     VideoFile = 3
+    # apk文件
+    ApkFile = 4
 
 
 class Stream(QObject):
@@ -139,6 +145,11 @@ class BaseLineWidget(QWidget):
             elif self.__file_type == SelectFileType.VideoFile:
                 dir, ok = QFileDialog.getOpenFileName(self,
                                                       filter="视频文件(*.mp4 *.mkv *.wmv *.mov *.swf *.flv *.avi *.rm *.rma *.mpg *.mpeg)")
+                if ok:
+                    self._url_path_txt.setText(dir)
+            elif self.__file_type == SelectFileType.ApkFile:
+                dir, ok = QFileDialog.getOpenFileName(self,
+                                                      filter="Apk文件(*.apk)")
                 if ok:
                     self._url_path_txt.setText(dir)
             elif self.__file_type == SelectFileType.Dir:
@@ -274,60 +285,72 @@ class MacLnAndroid(BaseLineWidget):
     __suffix_apk = ".apk"
 
     def __init__(self):
-        super(MacLnAndroid, self).__init__("软连接反编译Android smali到Android路径下", "请输入反编译文件夹路径", SelectFileType.Dir)
-        self._input_path = ""
-
-    def cmd_callback(self):
-        self.run_shell(self._input_path)
+        super(MacLnAndroid, self).__init__("软连接反编译Apk", "请输入反编译文件路径", SelectFileType.ApkFile)
 
     def run_shell(self, path):
-        self._input_path = path
-        print("软连接路径")
-        # 查找文件夹下的原版Apk包
-        os.chdir(path)  # 设置工作路径为 输入的路径
-        apks = []
-        for dataname in os.listdir("./"):
-            if os.path.splitext(dataname)[1] == self.__suffix_apk:  # 目录下包含.apk的文件
-                # print(dataname)
-                apks.append(dataname)
+        AndroidComToSmaliAs(path).run()
+        print("软连接", path, "成功")
 
-        for name in apks:
-            path = name[0:len(name) - len(self.__suffix_apk)]
-            android_studio_path = "android_studio"
-            if not os.path.exists(android_studio_path):
-                question = QMessageBox.question(self, "没有对应的Android工程", "是否生成Android工程\n生成安卓工程前需要选择jadx")
-                if question == QMessageBox.StandardButton.Yes:
-                    jadx_path, ok = QFileDialog.getOpenFileName(self)
-                    if ok and "jadx" in jadx_path:
-                        cmd = [
-                            jadx_path, "-d", "./android_studio", "--export-gradle", name
-                        ]
-                        worker = WorkerShellRun(cmd)
-                        worker.set_callback(self.cmd_callback)
-                        self._thread_pool.start(worker)
-                        print("生成Android工程中。。。。请等待结束 再次生成软连接")
-                    else:
-                        print("选择的jadx不对")
-                else:
-                    print("自己手动用jadx生成")
-                print("生成软连接失败")
-                return
-            android_smali_path = os.path.join(android_studio_path, "app/src/main/smalis")
-            if not os.path.exists(android_smali_path):
-                os.mkdir(android_smali_path)
-            if os.path.exists(path):  # 反编译路径是否存在
-                smali_path = []
-                for _path in os.listdir(path):
-                    if "smali" in _path:
-                        smali_path.append(_path)
-                for smali in smali_path:
-                    _smali_path = os.path.join(path, smali)
-                    cmd = ["ln", "-s", os.path.abspath("./" + _smali_path),
-                           "./" + android_smali_path]  # 软连接源路径一定得是绝对路径
-                    worker = WorkerShellRun(cmd)
-                    self._thread_pool.start(worker)
-                print("软连接", name, "成功")
 
+class ApkDecompilation(BaseLineWidget):
+    def __init__(self):
+        super(ApkDecompilation, self).__init__("生成Apk反编译工程 会卡UI线程", "请输入反编译文件路径", SelectFileType.ApkFile)
+        self.android_tools_path = "AndroidTools"
+        self.apktool = os.path.join(self.android_tools_path, "apktool_2.7.0.jar")
+        self.apktool_url = "https://bitbucket.org/iBotPeaches/apktool/downloads/apktool_2.7.0.jar"
+        self.jadx_path = os.path.join(self.android_tools_path, "jadx-1.4.7/bin/jadx")
+        self.jadx_url = "https://github.com/skylot/jadx/releases/download/v1.4.7/jadx-1.4.7.zip"
+
+    def run_shell(self, path):
+        # if not os.path.exists(self.android_tools_path):
+        #     os.mkdir(self.android_tools_path)
+        # if not os.path.exists(self.apktool):
+        #     dw = DownloadWidget(self.apktool_url, self.apktool)
+        #     dw.run()
+        # if not os.path.exists(self.jadx_path):
+        #     dw = DownloadWidget(self.jadx_url, self.android_tools_path)
+        #     dw.run()
+        #     zw = ZipWidget(dw.file)
+        #     zw.run()
+        # 
+        # apk_name = os.path.splitext(path)[0]
+        # # 使用apktool导出反编译工程
+        # shell = ShellWidget()
+        # apk_tools_dir_path = os.path.join(os.path.dirname(path), apk_name)  # apk 反编译工程路径
+        # shell.run(["java", "-jar", self.apktool, "d", "-o", apk_tools_dir_path, path])
+        # 
+        # # 虽然不会失去相应 但是这是一个新的线程 所以无法准切的知道执行完成否 如果使用
+        # # cmd = ["java", "-jar", self.apktool, "d", "-o",
+        # #        os.path.join(os.path.dirname(path), os.path.basename(path).split(".")[0]),
+        # #        path]
+        # # worker = WorkerShellRun(cmd)
+        # # self._thread_pool.start(worker)
+        # 
+        # # 使用jadx导出Androidstudio工程 方便阅读代码
+        # as_path = os.path.join(os.path.dirname(path), apk_name + "_android_studio")  # 反编译AndroidStudio工程路径
+        # 
+        # shell = ShellWidget()
+        # shell.run([self.jadx_path, "-e", "-d", as_path, path])
+        # 
+        # # 连接反编译工程的 smali 到AndroidStudio 的smails中
+        # as_smali_path = os.path.join(as_path, "app/src/main/smalis")
+        # if not os.path.exists(as_smali_path):
+        #     os.mkdir(as_smali_path)
+        # smali_path = []
+        # for _path in os.listdir(apk_tools_dir_path):
+        #     if "smali" in _path:
+        #         smali_path.append(_path)
+        # for smali in smali_path:
+        #     _smali_path = os.path.join(apk_tools_dir_path, smali)
+        #     cmd = ["ln", "-s", _smali_path,
+        #            as_smali_path]  # 软连接源路径一定得是绝对路径
+        #     worker = WorkerShellRun(cmd)
+        #     self._thread_pool.start(worker)
+
+        ApkTool(path).run()
+        JadxTool(path).run()
+        AndroidComToSmaliAs(path).run()
+        print("生成反编译{}工程成功".format(path))
 
 
 def main():
@@ -335,6 +358,7 @@ def main():
     app.aboutToQuit.connect(app.deleteLater)
     ex = MainWindow()
     sys.exit(app.exec())
+
 
 if __name__ == '__main__':
     main()

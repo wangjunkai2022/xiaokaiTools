@@ -1,0 +1,69 @@
+Topaz Video Enhance AI模型中英对照
+
+
+Artemis HQ v10:提升或锐化高质量（HQ）输入视频。 减少运动闪烁。
+
+
+
+Artemis High Quality v11:高级或锐化高质量输入视频，减少运动闪烁。
+
+
+
+Artemis MQ v10:高档或增强中等质量（MQ）视频，具有适中的噪音或压缩伪影。
+
+
+
+Artemis Medium Quality v11:提升或增强中等质量的视频，中度噪音或压缩伪影。
+
+
+
+Artemis Medium Quality v12:上同
+
+
+
+Artemis LQ v10:高端或锐化低质量(LQ)视频与高噪声或强压缩伪影。
+
+
+
+Artemis Low Quality v11:提升或锐化具有高噪音的低质量视频 或强烈的压缩伪影。
+
+
+
+Artemis Low Quality v12:上同
+
+
+
+Dione Interlaced v2:去隔行和高档隔行视频。 当 Dione-TV/DV 失败时尝试此模式。对于具有隔行扫描帧的视频，例如 480i/576i/720i/1028i。注意输出帧率 (FPS) 不会翻倍。
+
+
+
+Dione Interlaced Digital Video v2:基于隔行扫描和升格隔行视频。训练隔行数字视频，如DV、DVCPRO、DVCAM、720i或1080i来源。注意，输出帧率（FPS）将被加倍，场序必须被正确设置。
+
+
+
+Dione Interlaced TV v2:去隔行扫描和升格隔行扫描的电视源 训练从模拟电视捕获的视频，如从模拟电视l相机/摄像机或DVD捕获的480i/576i。注意，输出帧率（FPS）将增加一倍，并且必须正确设置场序。
+
+
+
+Dione Interlaced TV v3:上同
+
+
+
+Dione Interlaced Robust v3:去隔行和高档隔行视频。 当 Dione-TV/DV 失败时尝试此模式。对于具有隔行扫描帧的视频，例如 480i/576i/720i/1028i。注意输出帧率 (FPS) 不会翻倍。
+
+
+
+Dione Interlaced Dehalo v1:对含有光晕的隔行扫描电视源进行去交错和升频。训练从模拟电视捕获的视频，如从模拟TVI摄像机/摄像机捕获的480i/576i，或DVD。注意，输出帧率（FPS）将增加一倍，并且必须正确设置场序。
+
+
+
+Gaia High Quality v5:提升高质量的视频。可能产生更多的细节。
+
+
+
+Gaia Computer Graphics v5:带有锯齿或摩尔纹的高档视频。 可以增加更多细节。
+
+
+
+Theia Fine Tune Detail v3:将输入的视频放大或锐化，使其具有更多的细节，并有参数进行微调。
+

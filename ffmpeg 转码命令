@@ -30,8 +30,10 @@ yt-dlp "<URL>" -o - | ffplay -
 
 
 
+**去锯齿
+ffmpeg -i /Users/evan/Downloads/Aria2/video/HYPN-023-C.mp4 -vf yadif=mode=0:parity=auto:deint=0 test.mp4
 
-ffmpeg -i /Users/evan/Downloads/Aria2/video/HYPN-023-C.mp4 -vf yadif=mode=0:parity=auto:deint=0 -vcodec test.mp4 
+-vf yadif=mode=0:parity=auto:deint=0
 
 **视频录制
 ffmpeg -i "rtmp://pull0csp7bqtxeaj.ntjpnz.com/live/1604172653_532f3047d07fc7eca137c1b86c59d540?token=727705fccf9c4cf7a73aa1786106da90&t=1675655185 live=1 timeout=1" -t 02:00:00 -vcodec copy -acodec copy -f mp4  58764432.mp4
