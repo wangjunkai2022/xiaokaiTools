@@ -1,134 +1,22 @@
 {
-    "log":
+  "inbounds": [
     {
-        "access": "/var/log/v2ray/access.log",
-        "error": "/var/log/v2ray/error.log",
-        "loglevel": "warning"
-    },
-    "dns":
-    {},
-    "api":
-    {
-        "tag": "api",
-        "services":
-        [
-            "HandlerService",
-            "LoggerService",
-            "StatsService"
+      "port": 10214,
+      "protocol": "vmess",
+      "settings": {
+        "clients": [
+          {
+            "id": "89682891-3d57-4cef-abbb-fbac5937ba29",
+            "alterId": 64
+          }
         ]
-    },
-    "stats":
-    {},
-    "policy":
+      }
+    }
+  ],
+  "outbounds": [
     {
-        "levels":
-        {
-            "0":
-            {
-                "handshake": 7,
-                "connIdle": 612,
-                "uplinkOnly": 3,
-                "downlinkOnly": 3,
-                "statsUserUplink": true,
-                "statsUserDownlink": true
-            }
-        },
-        "system":
-        {
-            "statsInboundUplink": true,
-            "statsInboundDownlink": true,
-            "statsOutboundUplink": true,
-            "statsOutboundDownlink": true
-        }
-    },
-    "routing":
-    {
-        "domainStrategy": "IPIfNonMatch",
-        "rules":
-        [
-            {
-                "type": "field",
-                "inboundTag":
-                [
-                    "api"
-                ],
-                "outboundTag": "api"
-            },
-            {
-                "type": "field",
-                "protocol":
-                [
-                    "bittorrent"
-                ],
-                "marktag": "ban_bt",
-                "outboundTag": "block"
-            },
-            {
-                "type": "field",
-                "ip":
-                [
-                    "geoip:cn"
-                ],
-                "marktag": "ban_geoip_cn",
-                "outboundTag": "block"
-            },
-            {
-                "type": "field",
-                "ip":
-                [
-                    "geoip:private"
-                ],
-                "outboundTag": "block"
-            }
-        ]
-    },
-    "inbounds":
-    [
-        {
-            "tag": "proxy-1024",
-            "port": 10214,
-            "listen": "0.0.0.0",
-            "protocol": "vmess",
-            "settings":
-            {
-                "clients":
-                [
-                    {
-                        "id": "89682891-3d57-4cef-abbb-fbac5937ba29"
-                    }
-                ]
-            },
-            "streamSettings":
-            {
-                "network": "tcp",
-                "tcpSettings":
-                {
-                    "header":
-                    {
-                        "type": "none"
-                    }
-                }
-            },
-            "sniffing":
-            {
-                "enabled": true,
-                "destOverride":
-                [
-                    "http",
-                    "tls"
-                ]
-            }
-        }
-    ],
-    "outbounds":
-    [
-        {
-            "tag": "direct",
-            "protocol": "freedom"
-        },
-        {
-            "tag": "block",
-            "protocol": "blackhole"
-        }
-    ]
+      "protocol": "freedom",
+      "settings": {}
+    }
+  ]
 }
