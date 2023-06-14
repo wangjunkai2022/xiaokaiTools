@@ -1,4 +1,9 @@
 {
+  "log": {
+    "access": "proxy.log",
+    "error": "proxy.log",
+    "loglevel": "warning"
+  },
   "inbounds": [
     {
       "port": 10214,
