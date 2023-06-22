@@ -1,4 +1,7 @@
 #!/usr/bin/python3
+import time
+
+import argparse
 import git
 import re
 
@@ -42,7 +45,9 @@ class GitAuto:
         if not (self.branch_name in self.branches):  # 没有远程分支 创建
             local_branch = self.repo.create_head(self.branch_name)
             remote = self.repo.remote(self.remote)
-            remote.push(refspec='{}:{}'.format(local_branch, remote.refs_path + '/' + self.branch_name))
+            remote.push(refspec='{}:{}'.format(local_branch,
+                                               # remote.name + '/' + 
+                                               self.branch_name))
         self.repo.git.checkout(self.branch_name)  # 切换分支到此分支
 
     # 重置所有没有push的提交
@@ -65,6 +70,7 @@ class GitAuto:
     # 添加所有改变文件到提交并推送(一个一个上传)
     def add_all_changes_2_commit(self):
         for file in self.repo.untracked_files:
+            print("上传文件:{} 到git服务器中。。。。".format(file))
             isExclude = False
             for exc in exclude:
                 if file.find(exc) != -1:
@@ -76,12 +82,18 @@ class GitAuto:
             self.add_and_commit([file])
             self.push_all_commit()
             print("上传文件:{} 到git服务器完成".format(file))
+            time.sleep(2)
             # break
 
 
 if __name__ == '__main__':
-    print("请输入git文件路径")
-    gitPath = input().strip()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--path', help='输入需要操作的git路径')
+    if not parser.parse_args().path:
+        print("请输入git文件路径")
+        gitPath = input().strip()
+    else:
+        gitPath = parser.parse_args().path
     # gitPath = "/Users/evan/codes/Other/AV_Video"
     if gitPath is None or gitPath == "":
         gitPath = "./"
