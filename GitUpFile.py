@@ -20,20 +20,22 @@ class GitAuto:
         #
         pattern = re.compile(r"{}/".format(self.remote))
         self.branches = [pattern.sub("", s) for s in branches]  # 所有远程分支
-        self.branch_name = None
+        self.branch_name = self.repo.active_branch.name
+        self.print_active_branch_name()
 
     # 显示所有远程分支
     def show_all_branches(self):
-        print("当前的所有远程分支", self.branches)
+        print("当前的所有远程分支")
+        for index, branch in enumerate(self.branches):
+            print(f"{index + 1}. {branch}")
         return self.branches
 
     # 设置当前操作的分支(已存在的远程分支)
     def set_branch_index(self, index: int):
-        self.branch_name = self.branches[index]
-        # self.repo.git.checkout("{}/{}".format(self.remote, self.branche_name))
-        # remote_branches = self.repo.git.ls_remote('--heads', '--refs', 'origin').splitlines()
-        # remote_branch_names = [branch.split('refs/heads/')[1] for branch in remote_branches]
-        # print(self.repo.branches)
+        if index < 0 or index > len(self.branches):
+            print("选择了一个不存在的分支 故使用当前{}分支".format(self.branch_name))
+            return
+        self.branch_name = self.branches[index + 1]
         if self.branch_name in self.repo.branches:
             self.repo.git.checkout(self.branch_name)
         else:
@@ -41,13 +43,18 @@ class GitAuto:
 
     # 更具名字切换和创建分支
     def set_branch_name(self, name: str):
+        if name == "" or not name:
+            print("选择了一个不存在的分支 故使用当前{}分支".format(self.branch_name))
+            return
         self.branch_name = name
         if not (self.branch_name in self.branches):  # 没有远程分支 创建
             local_branch = self.repo.create_head(self.branch_name)
             remote = self.repo.remote(self.remote)
             remote.push(refspec='{}:{}'.format(local_branch,
                                                # remote.name + '/' + 
-                                               self.branch_name))
+                                               self.branch_name),
+                        u=True, set_upstream=True)
+
         self.repo.git.checkout(self.branch_name)  # 切换分支到此分支
 
     # 重置所有没有push的提交
@@ -66,6 +73,9 @@ class GitAuto:
     # 推送到服务器
     def push_all_commit(self):
         self.repo.remote(name=self.remote).push()
+
+    def print_active_branch_name(self):
+        print("当前分支是：{}".format(self.branch_name))
 
     # 添加所有改变文件到提交并推送(一个一个上传)
     def add_all_changes_2_commit(self):
@@ -101,12 +111,12 @@ if __name__ == '__main__':
         gitPath = gitPath + "/"
     git_auto = GitAuto(gitPath)
     git_auto.show_all_branches()
-    print("请输入需要操作的分支 数字从0开始\n或者输入新的分支名")
+    print("请输入需要操作的分支")
     # index = input().strip()
     # git_auto.set_branch_index(int(index))
 
     input_str = input().strip()
-    if input_str.isdigit():
+    if input_str.isdigit() or (input_str.startswith("-") and input_str[1:].isdigit()):
         print("输入为数字")
         git_auto.set_branch_index(int(input_str))
     else:
