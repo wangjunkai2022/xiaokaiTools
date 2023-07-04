@@ -2,20 +2,21 @@
 cd ~
 sudo apt update
 sudo apt install docker.io
-docker pull linuxserver/prowlarr
-docker pull linuxserver/sonarr
-docker pull linuxserver/radarr
-docker pull p3terx/aria2-pro
-docker pull emby/embyserver
-docker pull portainer/portainer-ce
-docker run -d -p 9000:9000 --name=portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock portainer/portainer-ce
+sudo docker pull linuxserver/prowlarr
+sudo docker pull linuxserver/sonarr
+sudo docker pull linuxserver/radarr
+sudo docker pull p3terx/aria2-pro
+sudo docker pull emby/embyserver
+sudo docker pull portainer/portainer-ce
+
+sudo docker run -d -p 9000:9000 --name=portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock portainer/portainer-ce
 
 mkdir -p videos/filse/电影
 mkdir -p videos/filse/电视
 mkdir -p videos/filse/下载
 
 mkdir -p videos/tools/prowlarr
-docker run -d \
+sudo docker run -d \
   --name=prowlarr \
   -e PUID=1000 \
   -e PGID=1000 \
@@ -26,7 +27,7 @@ docker run -d \
   linuxserver/prowlarr:latest
 
 mkdir -p videos/tools/sonarr
-docker run -d \
+sudo docker run -d \
   --name=sonarr \
   -e PUID=1000 \
   -e PGID=1000 \
@@ -39,7 +40,7 @@ docker run -d \
   linuxserver/sonarr
 
 mkdir -p videos/tools/radarr
-docker run -d \
+sudo docker run -d \
   --name=radarr \
   -e PUID=1000 \
   -e PGID=1000 \
@@ -52,7 +53,7 @@ docker run -d \
   linuxserver/radarr:latest
 
 mkdir -p videos/tools/aria2
-docker run -d \
+sudo docker run -d \
   --name aria2-pro \
   --restart always \
   --log-opt max-size=1m \
@@ -66,7 +67,7 @@ docker run -d \
   p3terx/aria2-pro
 
 mkdir -p videos/tools/embyserver
-docker run -d \
+sudo docker run -d \
   --name embyserver \
   -v videos/tools/embyserver:/config \
   -v videos/filse/电视:/mnt/share1 \
