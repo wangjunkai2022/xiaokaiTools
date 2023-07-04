@@ -10,6 +10,8 @@ sudo docker pull p3terx/aria2-pro
 sudo docker pull emby/embyserver
 sudo docker pull portainer/portainer-ce
 sudo docker pull linuxserver/ombi
+#sudo docker pull allanpk716/chinesesubfinder
+sudo docker pull linuxserver/bazarr
 
 sudo docker run -d -p 9000:9000 --name=portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock portainer/portainer-ce
 
@@ -34,3 +36,15 @@ sudo docker run -d --name -e PUID=1000 -e PGID=1000 -e TZ=Etc/UTC embyserver -v 
 
 mkdir -p ~/videos/tools/ombi
 sudo docker run -d --name=ombi -e PUID=1000 -e PGID=1000 -e TZ=Etc/UTC -e BASE_URL=/ombi -p 3579:3579 -v ~/videos/tools/ombi:/config --restart always lscr.io/linuxserver/ombi:latest
+
+
+#mkdir -p ~/videos/tools/chinesesubfinder/config
+#mkdir -p ~/videos/tools/chinesesubfinder/browser
+
+#sudo docker run -d -v ~/videos/tools/chinesesubfinder/config:/config -v ~/videos/filse/电影:/电影 -v ~/videos/filse/电视:/电视 -v ~/videos/tools/chinesesubfinder/browser:/root/.cache/rod/browser -e PUID=1026 -e PGID=100 -e PERMS=true -e TZ=Asia/Shanghai -e UMASK=022 -p 19035:19035 -p 19037:19037 --name chinesesubfinder --hostname chinesesubfinder --log-driver "json-file" --log-opt "max-size=10m" ChineseSubFinder/ChineseSubFinder
+
+mkdir -p ~/videos/tools/bazarr
+sudo docker run -d --name=bazarr -e PUID=1000 -e PGID=1000 -e TZ=Etc/UTC -p 6767:6767 -v ~/videos/tools/bazarr:/config -v ~/videos/filse/电影:/movies -v ~/videos/filse/电视:/tv --restart always lscr.io/linuxserver/bazarr:latest
+
+
+
