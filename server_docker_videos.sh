@@ -1,6 +1,6 @@
 #!/bin/bash
 cd ~
-
+# run sh -c "$(curl -fsSL https://raw.githubusercontent.com/wangjunkai2022/xiaokaiTools/main/server_docker_videos.sh)"
 sudo apt update
 sudo apt install docker.io
 sudo docker pull linuxserver/prowlarr
@@ -33,4 +33,4 @@ mkdir -p ~/videos/tools/embyserver
 sudo docker run -d --name -e PUID=1000 -e PGID=1000 -e TZ=Etc/UTC embyserver -v ~/videos/tools/embyserver:/config -v ~/videos/filse/电视:/mnt/share1 -v ~/videos/filse/电影:/mnt/share2 -p 8096:8096 -p 8920:8920 --env UID=1000 --env GID=1000 --restart always emby/embyserver:latest
 
 mkdir -p ~/videos/tools/ombi
-docker run -d --name=ombi -e PUID=1000 -e PGID=1000 -e TZ=Etc/UTC -e BASE_URL=/ombi -p 3579:3579 -v ~/videos/tools/ombi:/config --restart always lscr.io/linuxserver/ombi:latest
+sudo docker run -d --name=ombi -e PUID=1000 -e PGID=1000 -e TZ=Etc/UTC -e BASE_URL=/ombi -p 3579:3579 -v ~/videos/tools/ombi:/config --restart always lscr.io/linuxserver/ombi:latest
