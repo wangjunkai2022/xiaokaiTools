@@ -11,9 +11,9 @@ sudo docker pull portainer/portainer-ce
 
 sudo docker run -d -p 9000:9000 --name=portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock portainer/portainer-ce
 
-mkdir -p videos/filse/电影
-mkdir -p videos/filse/电视
-mkdir -p videos/filse/下载
+mkdir -p ~/videos/filse/电影
+mkdir -p ~/videos/filse/电视
+mkdir -p ~/videos/filse/下载
 
 mkdir -p ~/videos/tools/prowlarr
 sudo docker run -d --name=prowlarr -e PUID=1000 -e PGID=1000 -e TZ=Etc/UTC -p 9696:9696 -v ~/videos/tools/prowlarr:/config --restart always linuxserver/prowlarr:latest
