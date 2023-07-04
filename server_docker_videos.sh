@@ -1,5 +1,6 @@
 #!/bin/bash
 cd ~
+
 sudo apt update
 sudo apt install docker.io
 sudo docker pull linuxserver/prowlarr
