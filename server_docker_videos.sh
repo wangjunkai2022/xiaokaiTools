@@ -9,6 +9,7 @@ sudo docker pull linuxserver/radarr
 sudo docker pull p3terx/aria2-pro
 sudo docker pull emby/embyserver
 sudo docker pull portainer/portainer-ce
+sudo docker pull linuxserver/ombi
 
 sudo docker run -d -p 9000:9000 --name=portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock portainer/portainer-ce
 
@@ -29,4 +30,7 @@ mkdir -p ~/videos/tools/aria2
 sudo docker run -d --name aria2-pro --restart always --log-opt max-size=1m -e RPC_PORT=6800 -p 6800:6800 -e LISTEN_PORT=6888 -p 6888:6888 -p 6888:6888/udp -v ~/videos/tools/aria2:/config -v ~/videos/filse/下载:/downloads p3terx/aria2-pro
 
 mkdir -p ~/videos/tools/embyserver
-sudo docker run -d --name embyserver -v ~/videos/tools/embyserver:/config -v ~/videos/filse/电视:/mnt/share1 -v ~/videos/filse/电影:/mnt/share2 -p 8096:8096 -p 8920:8920 --env UID=1000 --env GID=1000 --restart always emby/embyserver:latest
+sudo docker run -d --name -e PUID=1000 -e PGID=1000 -e TZ=Etc/UTC embyserver -v ~/videos/tools/embyserver:/config -v ~/videos/filse/电视:/mnt/share1 -v ~/videos/filse/电影:/mnt/share2 -p 8096:8096 -p 8920:8920 --env UID=1000 --env GID=1000 --restart always emby/embyserver:latest
+
+mkdir -p ~/videos/tools/ombi
+docker run -d --name=ombi -e PUID=1000 -e PGID=1000 -e TZ=Etc/UTC -e BASE_URL=/ombi -p 3579:3579 -v ~/videos/tools/ombi:/config --restart always lscr.io/linuxserver/ombi:latest
