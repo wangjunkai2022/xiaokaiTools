@@ -7,5 +7,6 @@ for filename in $fils; do
     cd $filename
     rm -rf license
     rm -rf preferences.yml
+    rm -rf .backup
   fi
 done
