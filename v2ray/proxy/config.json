@@ -1,32 +1,42 @@
 {
-    "inbounds": [{
-      "port": 1080,
-      "protocol": "socks"
-    }],
-    "outbounds": [
-      {
-        "protocol": "vmess",
-        "settings": {
-          "vnext": [
-            {
-              "address": "jpword.home-yyou.top",
-              "port": 443,
-              "users": [
-                {
-                  "id": "",
-                  "alterId": 64
-                }
-              ]
-            }
-          ]
-        },
-        "streamSettings": {
-          "network": "ws",
-          "security": "tls",
-          "wsSettings": {
-            "path": "/jp"
-          }
+    "inbounds": [
+        {
+            "port": 1080,
+            "protocol": "socks"
         }
-      }
+    ],
+    "outbounds": [
+        {
+            "protocol": "vmess",
+            "settings": {
+                "vnext": [
+                    {
+                        "address": "jpword.home-yyou.top",
+                        "port": 443,
+                        "users": [
+                            {
+                                "id": "",
+                                "alterId": 64
+                            }
+                        ]
+                    }
+                ]
+            },
+            "streamSettings": {
+                "network": "ws",
+                "security": "tls",
+                "tlsSettings": {
+                    "allowInsecure": true,
+                    "serverName": "jpword.home-yyou.top"
+                },
+                "wsSettings": {
+                    "connectionReuse": true,
+                    "path": "/jp",
+                    "headers": {
+                        "Host": "jpword.home-yyou.top"
+                    }
+                }
+            }
+        }
     ]
-  }
+}
