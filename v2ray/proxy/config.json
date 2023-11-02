@@ -17,6 +17,7 @@
         {
             "protocol": "vmess",
             "settings": {
+                "domainStrategy": "UseIP",
                 "vnext": [
                     {
                         "address": "jpword.home-yyou.top",
