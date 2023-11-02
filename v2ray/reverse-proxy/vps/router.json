@@ -1,0 +1,98 @@
+{
+    "log": {
+        "access": "reverse_router.log",
+        "error": "reverse_router.log",
+        "loglevel": "warning"
+    },
+    "reverse": {
+        "portals": [
+            {
+                "tag": "portal",
+                "domain": "v2.reverse.proxy"
+            }
+        ]
+    },
+    "inbounds": [
+        {
+            // client 连接这个
+            "tag": "pro-forward",
+            "listen": "127.0.0.1",
+            "port": 10210,
+            "protocol": "vmess",
+            "settings": {
+                "clients": [
+                    {
+                        "alterId": 64,
+                        "id": "897244b5-0170-44a3-9f76-672fa6734c9b"
+                    }
+                ],
+                "decryption": "none"
+            },
+            "streamSettings": {
+                "network": "ws",
+                "wsSettings": {
+                    "path": "/client/router"
+                }
+            },
+            "sniffing": {
+                "enabled": true,
+                "destOverride": [
+                    "http",
+                    "tls"
+                ],
+                "metadataOnly": false
+            }
+        },
+        {
+            // 需要穿透的内网连接这个
+            "tag": "pro-tunnel",
+            "listen": "127.0.0.1",
+            "port": 10211,
+            "protocol": "vmess",
+            "settings": {
+                "clients": [
+                    {
+                        "alterId": 64,
+                        "id": "897244b5-0170-44a3-9f76-672fa6734c9b"
+                    }
+                ],
+                "decryption": "none"
+            },
+            "streamSettings": {
+                "network": "ws",
+                "wsSettings": {
+                    "path": "/nat/router"
+                }
+            },
+            "sniffing": {
+                "enabled": true,
+                "destOverride": [
+                    "http",
+                    "tls"
+                ],
+                "metadataOnly": false
+            }
+        }
+    ],
+    "routing": {
+        "rules": [
+            {
+                "type": "field",
+                "inboundTag": [
+                    "pro-forward"
+                ],
+                "outboundTag": "portal"
+            },
+            {
+                "type": "field",
+                "inboundTag": [
+                    "pro-tunnel"
+                ],
+                "domain": [
+                    "full:v2.reverse.proxy"
+                ],
+                "outboundTag": "portal"
+            }
+        ]
+    }
+}

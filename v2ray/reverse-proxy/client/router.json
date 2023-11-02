@@ -1,0 +1,67 @@
+{
+    "log": {
+        "access": "reverse_router.log",
+        "error": "reverse_router.log",
+        "loglevel": "warning"
+    },
+    "inbounds": [
+        {
+            "tag": "pro-forward",
+            "port": 10808,
+            "listen": "127.0.0.1",
+            "protocol": "socks",
+            "settings": {
+                "udp": true
+            }
+        }
+    ],
+    "outbounds": [
+        {
+            "tag": "pro-forward",
+            "protocol": "vmess",
+            "settings": {
+                "vnext": [
+                    {
+                        "address": "jpword.home-yyou.top",
+                        "port": 443,
+                        "users": [
+                            {
+                                "id": "897244b5-0170-44a3-9f76-672fa6734c9b",
+                                "encryption": "none",
+                                "level": 0
+                            }
+                        ]
+                    }
+                ]
+            },
+            "mux": {
+                "enabled": true,
+                "concurrency": 1
+            },
+            "streamSettings": {
+                "network": "ws",
+                "security": "tls",
+                "tlsSettings": {
+                    "serverName": "jpword.home-yyou.top"
+                },
+                "wsSettings": {
+                    "path": "/client/router",
+                    "headers": {
+                        "Host": "jpword.home-yyou.top"
+                    }
+                }
+            }
+        }
+    ],
+    "routing": {
+        "rules": [
+            {
+                "type": "field",
+                "inboundTag": [
+                    "pro-forward"
+                ],
+                "outboundTag": "pro-forward"
+            }
+        ]
+    }
+}

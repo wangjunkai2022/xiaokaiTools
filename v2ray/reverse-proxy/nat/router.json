@@ -1,0 +1,79 @@
+{
+    "log": {
+        "access": "reverse_router.log",
+        "error": "reverse_router.log",
+        "loglevel": "warning"
+    },
+    "reverse": {
+        "bridges": [
+            {
+                "tag": "pro",
+                "domain": "v2.reverse.proxy"
+            }
+        ]
+    },
+    "inbounds": [],
+    "outbounds": [
+        {
+            "tag": "pro-tunnel",
+            "protocol": "vmess",
+            "settings": {
+                "vnext": [
+                    {
+                        "address": "jpword.home-yyou.top",
+                        "port": 443,
+                        "users": [
+                            {
+                                "id": "897244b5-0170-44a3-9f76-672fa6734c9b",
+                                "encryption": "none",
+                                "level": 0
+                            }
+                        ]
+                    }
+                ]
+            },
+            "mux": {
+                "enabled": false,
+                "concurrency": 1
+            },
+            "streamSettings": {
+                "network": "ws",
+                "security": "tls",
+                "tlsSettings": {
+                    "serverName": "jpword.home-yyou.top"
+                },
+                "wsSettings": {
+                    "path": "/nat/router",
+                    "headers": {
+                        "Host": "jpword.home-yyou.top"
+                    }
+                }
+            }
+        },
+        {
+            "tag": "direct",
+            "protocol": "freedom"
+        }
+    ],
+    "routing": {
+        "rules": [
+            {
+                "type": "field",
+                "inboundTag": [
+                    "pro"
+                ],
+                "domain": [
+                    "full:v2.reverse.proxy"
+                ],
+                "outboundTag": "pro-tunnel"
+            },
+            {
+                "type": "field",
+                "inboundTag": [
+                    "pro"
+                ],
+                "outboundTag": "direct"
+            }
+        ]
+    }
+}
