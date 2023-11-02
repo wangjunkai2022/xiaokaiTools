@@ -6,13 +6,17 @@
     },
     "inbounds": [
         {
-            "tag": "pro-forward",
+            "tag": "scoks",
             "port": 10808,
-            "listen": "127.0.0.1",
             "protocol": "socks",
             "settings": {
                 "udp": true
             }
+        },
+        {
+            "tag": "http",
+            "port": 10809,
+            "protocol": "http"
         }
     ],
     "outbounds": [
@@ -58,7 +62,8 @@
             {
                 "type": "field",
                 "inboundTag": [
-                    "pro-forward"
+                    "scoks",
+                    "http"
                 ],
                 "outboundTag": "pro-forward"
             }
