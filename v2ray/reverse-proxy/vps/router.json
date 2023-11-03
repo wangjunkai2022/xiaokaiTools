@@ -7,22 +7,54 @@
     "reverse": {
         "portals": [
             {
-                "tag": "portal",
-                "domain": "v2.reverse.proxy"
+                "tag": "portal_router_asus",
+                "domain": "router_asus.reverse.proxy"
+            },
+            {
+                "tag": "portal_server_ubuntu",
+                "domain": "server_ubuntu.reverse.proxy"
             }
         ]
     },
     "inbounds": [
         {
-            // client 连接这个
-            "tag": "pro-forward",
+            // nat 连这里
+            "tag": "nats",
             "listen": "127.0.0.1",
-            "port": 10210,
+            "port": 8080,
             "protocol": "vmess",
             "settings": {
                 "clients": [
                     {
-                        "alterId": 64,
+                        "id": "897244b5-0170-44a3-9f76-672fa6734c9b"
+                    }
+                ],
+                "decryption": "none"
+            },
+            "streamSettings": {
+                "network": "ws",
+                "wsSettings": {
+                    "path": "/nat"
+                }
+            },
+            "sniffing": {
+                "enabled": true,
+                "destOverride": [
+                    "http",
+                    "tls"
+                ],
+                "metadataOnly": false
+            }
+        },
+        {
+            // 需要连接 asus的客户端连这个
+            "tag": "client_router_asus",
+            "listen": "127.0.0.1",
+            "port": 9090,
+            "protocol": "vmess",
+            "settings": {
+                "clients": [
+                    {
                         "id": "897244b5-0170-44a3-9f76-672fa6734c9b"
                     }
                 ],
@@ -44,15 +76,14 @@
             }
         },
         {
-            // 需要穿透的内网连接这个
-            "tag": "pro-tunnel",
-            "listen": "127.0.0.1",
-            "port": 10211,
+            // 需要连接 ubuntu的客户端连这个
+            "tag": "client_server_ubuntu",
+            "listen": "127.0.0.1", 
+            "port": 9091,
             "protocol": "vmess",
             "settings": {
                 "clients": [
                     {
-                        "alterId": 64,
                         "id": "897244b5-0170-44a3-9f76-672fa6734c9b"
                     }
                 ],
@@ -61,7 +92,7 @@
             "streamSettings": {
                 "network": "ws",
                 "wsSettings": {
-                    "path": "/nat/router"
+                    "path": "/client/server"
                 }
             },
             "sniffing": {
@@ -79,19 +110,36 @@
             {
                 "type": "field",
                 "inboundTag": [
-                    "pro-forward"
+                    "nats"
                 ],
-                "outboundTag": "portal"
+                "domain": [
+                    "full:router_asus.reverse.proxy"
+                ],
+                "outboundTag": "portal_router_asus"
             },
             {
                 "type": "field",
                 "inboundTag": [
-                    "pro-tunnel"
+                    "nats"
                 ],
                 "domain": [
-                    "full:v2.reverse.proxy"
+                    "full:server_ubuntu.reverse.proxy"
                 ],
-                "outboundTag": "portal"
+                "outboundTag": "portal_server_ubuntu"
+            },
+            {
+                "type": "field",
+                "inboundTag": [
+                    "client_router_asus"
+                ],
+                "outboundTag": "portal_router_asus"
+            },
+            {
+                "type": "field",
+                "inboundTag": [
+                    "client_server_ubuntu"
+                ],
+                "outboundTag": "portal_server_ubuntu"
             }
         ]
     }

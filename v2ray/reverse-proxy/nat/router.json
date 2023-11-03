@@ -7,15 +7,15 @@
     "reverse": {
         "bridges": [
             {
-                "tag": "pro",
-                "domain": "v2.reverse.proxy"
+                "tag": "portal_router_asus",
+                "domain": "router_asus.reverse.proxy"
             }
         ]
     },
     "inbounds": [],
     "outbounds": [
         {
-            "tag": "pro-tunnel",
+            "tag": "nat-tunnel",
             "protocol": "vmess",
             "settings": {
                 "vnext": [
@@ -43,7 +43,7 @@
                     "serverName": "jpword.home-yyou.top"
                 },
                 "wsSettings": {
-                    "path": "/nat/router",
+                    "path": "/nat",
                     "headers": {
                         "Host": "jpword.home-yyou.top"
                     }
@@ -51,7 +51,7 @@
             }
         },
         {
-            "tag": "direct",
+            "tag": "local_internet",
             "protocol": "freedom"
         }
     ],
@@ -60,19 +60,19 @@
             {
                 "type": "field",
                 "inboundTag": [
-                    "pro"
+                    "portal_router_asus"
                 ],
                 "domain": [
-                    "full:v2.reverse.proxy"
+                    "full:router_asus.reverse.proxy"
                 ],
-                "outboundTag": "pro-tunnel"
+                "outboundTag": "nat-tunnel"
             },
             {
                 "type": "field",
                 "inboundTag": [
-                    "pro"
+                    "portal_router_asus"
                 ],
-                "outboundTag": "direct"
+                "outboundTag": "local_internet"
             }
         ]
     }

@@ -1,7 +1,7 @@
 {
     "log": {
-        "access": "reverse_router.log",
-        "error": "reverse_router.log",
+        "access": "reverse_ubuntu.log",
+        "error": "reverse_ubuntu.log",
         "loglevel": "warning"
     },
     "inbounds": [
@@ -49,7 +49,7 @@
                     "serverName": "jpword.home-yyou.top"
                 },
                 "wsSettings": {
-                    "path": "/client/router",
+                    "path": "/client/server",
                     "headers": {
                         "Host": "jpword.home-yyou.top"
                     }

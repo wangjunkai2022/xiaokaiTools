@@ -1,27 +1,21 @@
 {
     "log": {
-        "access": "reverse_router.log",
-        "error": "reverse_router.log",
+        "access": "reverse_ubuntu.log",
+        "error": "reverse_ubuntu.log",
         "loglevel": "warning"
     },
-    "inbounds": [
-        {
-            "tag": "scoks",
-            "port": 10808,
-            "protocol": "socks",
-            "settings": {
-                "udp": true
+    "reverse": {
+        "bridges": [
+            {
+                "tag": "portal_server_ubuntu",
+                "domain": "server_ubuntu.reverse.proxy"
             }
-        },
-        {
-            "tag": "http",
-            "port": 10809,
-            "protocol": "http"
-        }
-    ],
+        ]
+    },
+    "inbounds": [],
     "outbounds": [
         {
-            "tag": "client_2_server",
+            "tag": "nat-tunnel",
             "protocol": "vmess",
             "settings": {
                 "vnext": [
@@ -39,7 +33,7 @@
                 ]
             },
             "mux": {
-                "enabled": true,
+                "enabled": false,
                 "concurrency": 1
             },
             "streamSettings": {
@@ -49,12 +43,16 @@
                     "serverName": "jpword.home-yyou.top"
                 },
                 "wsSettings": {
-                    "path": "/client/router",
+                    "path": "/nat",
                     "headers": {
                         "Host": "jpword.home-yyou.top"
                     }
                 }
             }
+        },
+        {
+            "tag": "local_internet",
+            "protocol": "freedom"
         }
     ],
     "routing": {
@@ -62,10 +60,19 @@
             {
                 "type": "field",
                 "inboundTag": [
-                    "scoks",
-                    "http"
+                    "portal_server_ubuntu"
                 ],
-                "outboundTag": "client_2_server"
+                "domain": [
+                    "full:server_ubuntu.reverse.proxy"
+                ],
+                "outboundTag": "nat-tunnel"
+            },
+            {
+                "type": "field",
+                "inboundTag": [
+                    "portal_server_ubuntu"
+                ],
+                "outboundTag": "local_internet"
             }
         ]
     }
