@@ -21,7 +21,7 @@
             // nat 连这里
             "tag": "nats",
             "listen": "127.0.0.1",
-            "port": 8080,
+            "port": 10201,
             "protocol": "vmess",
             "settings": {
                 "clients": [
@@ -50,7 +50,7 @@
             // 需要连接 asus的客户端连这个
             "tag": "client_router_asus",
             "listen": "127.0.0.1",
-            "port": 9090,
+            "port": 10220,
             "protocol": "vmess",
             "settings": {
                 "clients": [
@@ -79,7 +79,7 @@
             // 需要连接 ubuntu的客户端连这个
             "tag": "client_server_ubuntu",
             "listen": "127.0.0.1", 
-            "port": 9091,
+            "port": 10221,
             "protocol": "vmess",
             "settings": {
                 "clients": [
