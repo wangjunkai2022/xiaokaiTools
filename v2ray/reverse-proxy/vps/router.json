@@ -26,7 +26,8 @@
             "settings": {
                 "clients": [
                     {
-                        "id": "897244b5-0170-44a3-9f76-672fa6734c9b"
+                        "id": "897244b5-0170-44a3-9f76-672fa6734c9b",
+                        "alterId": 64
                     }
                 ],
                 "decryption": "none"
@@ -55,7 +56,8 @@
             "settings": {
                 "clients": [
                     {
-                        "id": "897244b5-0170-44a3-9f76-672fa6734c9b"
+                        "id": "897244b5-0170-44a3-9f76-672fa6734c9b",
+                        "alterId": 64
                     }
                 ],
                 "decryption": "none"
@@ -84,7 +86,8 @@
             "settings": {
                 "clients": [
                     {
-                        "id": "897244b5-0170-44a3-9f76-672fa6734c9b"
+                        "id": "897244b5-0170-44a3-9f76-672fa6734c9b",
+                        "alterId": 64
                     }
                 ],
                 "decryption": "none"

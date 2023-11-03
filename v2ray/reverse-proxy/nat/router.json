@@ -26,7 +26,8 @@
                             {
                                 "id": "897244b5-0170-44a3-9f76-672fa6734c9b",
                                 "encryption": "none",
-                                "level": 0
+                                "level": 0,
+                                "alterId": 64
                             }
                         ]
                     }
