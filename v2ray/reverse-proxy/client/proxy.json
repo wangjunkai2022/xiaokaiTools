@@ -1,0 +1,73 @@
+{
+    "log": {
+        "access": "reverse_ubuntu.log",
+        "error": "reverse_ubuntu.log",
+        "loglevel": "warning"
+    },
+    "inbounds": [
+        {
+            "tag": "scoks",
+            "port": 10808,
+            "protocol": "socks",
+            "settings": {
+                "udp": true
+            }
+        },
+        {
+            "tag": "http",
+            "port": 10809,
+            "protocol": "http"
+        }
+    ],
+    "outbounds": [
+        {
+            "tag": "client_2_server",
+            "protocol": "vmess",
+            "settings": {
+                "vnext": [
+                    {
+                        "address": "jpword.home-yyou.top",
+                        "port": 443,
+                        "users": [
+                            {
+                                "id": "897244b5-0170-44a3-9f76-672fa6734c9b",
+                                "encryption": "none",
+                                "level": 0,
+                                "alterId": 64
+                            }
+                        ]
+                    }
+                ]
+            },
+            "mux": {
+                "enabled": true,
+                "concurrency": 1
+            },
+            "streamSettings": {
+                "network": "ws",
+                "security": "tls",
+                "tlsSettings": {
+                    "serverName": "jpword.home-yyou.top"
+                },
+                "wsSettings": {
+                    "path": "/local",
+                    "headers": {
+                        "Host": "jpword.home-yyou.top"
+                    }
+                }
+            }
+        }
+    ],
+    "routing": {
+        "rules": [
+            {
+                "type": "field",
+                "inboundTag": [
+                    "scoks",
+                    "http"
+                ],
+                "outboundTag": "client_2_server"
+            }
+        ]
+    }
+}

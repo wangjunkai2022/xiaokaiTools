@@ -18,6 +18,36 @@
     },
     "inbounds": [
         {
+            // 使用服务地址代理用这个
+            "tag": "local_in",
+            "listen": "127.0.0.1",
+            "port": 10101,
+            "protocol": "vmess",
+            "settings": {
+                "clients": [
+                    {
+                        "id": "897244b5-0170-44a3-9f76-672fa6734c9b",
+                        "alterId": 64
+                    }
+                ],
+                "decryption": "none"
+            },
+            "streamSettings": {
+                "network": "ws",
+                "wsSettings": {
+                    "path": "/local"
+                }
+            },
+            "sniffing": {
+                "enabled": true,
+                "destOverride": [
+                    "http",
+                    "tls"
+                ],
+                "metadataOnly": false
+            }
+        },
+        {
             // nat 连这里
             "tag": "nats",
             "listen": "127.0.0.1",
@@ -80,7 +110,7 @@
         {
             // 需要连接 ubuntu的客户端连这个
             "tag": "client_server_ubuntu",
-            "listen": "127.0.0.1", 
+            "listen": "127.0.0.1",
             "port": 10221,
             "protocol": "vmess",
             "settings": {
@@ -108,8 +138,22 @@
             }
         }
     ],
+    "outbounds": [
+        {
+            "tag":"freedom_out",
+            "protocol": "freedom",
+            "settings": {}
+        }
+    ],
     "routing": {
         "rules": [
+            {
+                "type": "field",
+                "inboundTag": [
+                    "local_in"
+                ],
+                "outboundTag": "freedom_out"
+            },
             {
                 "type": "field",
                 "inboundTag": [
