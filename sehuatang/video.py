@@ -72,14 +72,16 @@ if __name__ == '__main__':
     # print(files)
 
     # path = "/data/videos/media/alist/PikPak2/整理"
-    path = "/data/videos/media/alist/JAV合集一/JAV合集一"
+    # path = "/data/videos/media/alist/JAV合集一/JAV合集一"
+    path = "/Volumes/dav/SukebeiEnyo合集一"
     # path = "/Users/evan/codes/Other/Tools/sehuatang"
     files_repeat = getFileNameRepeats(path)  # 相同的文件
 
     for file in files_repeat:
-        os.remove(file)
+        # os.remove(file)
         print("删除重复文件：{}".format(file))
     # print(files)
 
     # path=""
     # files = getReNameParentVideo(path)
+    

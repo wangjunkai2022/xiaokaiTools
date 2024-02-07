@@ -13,7 +13,7 @@ headers = {
 
 async def _get_form_hash():
     async with httpx.AsyncClient(proxies=proxy) as client:
-        response = await client.get(domain, headers=headers)
+        response = await client.get("https://" + domain, headers=headers)
         soup = bs4.BeautifulSoup(response.text, "html.parser")
         formhash = soup.find(name="input", attrs={"name": "formhash"})
         print(formhash["value"])
@@ -37,7 +37,7 @@ async def SearchNumberToMagnets(text):
         for li in allSearch:
             a = li.find("a")
             li_url = a["href"]
-            response = await client.post(domain + "/" + li_url, headers=headers)
+            response = await client.post("https://" + domain + "/" + li_url, headers=headers)
             soup = bs4.BeautifulSoup(response.text, "html.parser")
             magnet = None
             try:

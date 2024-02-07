@@ -7,7 +7,7 @@ password = "''''"
 token = ''
 proxy = None
 
-domain = "http://10.211.55.48:5244"
+domain = "http://localhost:5244"
 
 
 async def update_all(path):
