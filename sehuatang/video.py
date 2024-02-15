@@ -34,6 +34,20 @@ def getSizeZeroVides(path):
     return files_size_zero
 
 
+# 获取文件夹下所有以.开头的文件和.DS_Store 文件
+def getDotStartFiles(path):
+    from Organize_Files import get_file_names
+    files_repeat = []  # 文件名中包含（.开头的文件）
+    for root, dir, files in os.walk(path):
+        # print(files)
+        for file in files:
+            file_name, file_houzui = get_file_names(file)
+            if file_name.startswith(".") or "DS_Store" in file_name:
+                files_repeat.append(os.path.join(root, file))
+
+    return files_repeat
+
+
 # 获取文件夹下名字重复的文件
 def getFileNameRepeats(path):
     from Organize_Files import get_file_names
@@ -63,6 +77,7 @@ def getFileNameRepeats(path):
                         files_repeat.append(file_path)
     return files_repeat
 
+
 if __name__ == '__main__':
     # path = "/data/videos/media/alist/PikPak2/整理/中文字幕无码破解/希島あいり/IPZ-299"
     # videos = getReNameParentVideo(path, "IPZ-299")
@@ -84,4 +99,3 @@ if __name__ == '__main__':
 
     # path=""
     # files = getReNameParentVideo(path)
-    

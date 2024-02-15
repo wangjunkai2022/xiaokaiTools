@@ -27,7 +27,7 @@ vidoe_suffix = [
     'flv',
 ]
 
-PIKPAK_PATH = "/Volumes/dav/sehuatang1/"
+PIKPAK_PATH = "/Volumes/dav/色花堂无码无破解/"
 ALIST_PATH = "dav/"
 
 
@@ -75,6 +75,7 @@ def main(path):
 
     if len(files_size_zero) == 0:
         files_size_zero = video.getSizeZeroVides(path)  # 大小是0的视频文件
+        # files_size_zero = []  # 大小是0的视频文件
         for zero_file in files_size_zero:
             with open(os.path.abspath(os.path.dirname(__file__)) + "/zero_file.txt", "a") as f:
                 f.write(zero_file + "\n")
@@ -203,18 +204,26 @@ def main(path):
             except Exception as e:
                 logging.info("删除\n{}\n错误".format(all_path_file))
             time.sleep(5)
+    if os.path.exists(size_zero_txt_file_path):
+        os.remove(size_zero_txt_file_path)
 
+    logging.info("大小是0的视频文件处理完毕")
+    logging.info("开始查找相同文件")
     files_repeat = video.getFileNameRepeats(path)  # 相同的文件
-
     for file in files_repeat:
         os.remove(file)
         logging.info("删除重复文件：{}".format(file))
 
+    logging.info("开始查找隐藏文件")
+    for file in video.getDotStartFiles(path):  # 隐藏文件
+        os.remove(file)
+        logging.info("删除隐藏文件：{}".format(file))
+
 
 if __name__ == '__main__':
     # path = "/data/videos/media/alist/PikPak2/整理/中文字幕无码破解/希島あいり/"
-    path = "/data/videos/media/alist/PikPak2/整理"
-    path = "/Volumes/dav/sehuatang1/整理"  # 需要整理的文件夹
-    PIKPAK_PATH = "/Volumes/dav/sehuatang1/"  # pikpak 的路径
-    alist_path = "/Volumes/dav/"
+    path = "/Volumes/dav/色花堂无码无破解/JAV_output"
+    # path = "/Volumes/dav/sehuatang1/整理"  # 需要整理的文件夹
+    # PIKPAK_PATH = "/Volumes/dav/sehuatang1/"  # pikpak 的路径
+    # alist_path = "/Volumes/dav/"
     main(path)
